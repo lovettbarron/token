@@ -1,16 +1,26 @@
-package user
+package token
 
 type User struct {
 	userid int32
-	password int32
-	name string
+	pwhash int32
+	pwsalt int32
+	created int32
+	updated int32
+	lastactive int32
+	username string
+	fullname string
 	email string
 	intention string
 	score int
+	disable bool
 }
 
 
 func newUser() *User {
+
+}
+
+func (u *User) Authenticate() int {
 
 }
 

@@ -3,10 +3,7 @@ package token
 import (
 	"fmt"
 	"github.com/go-martini/martini"
-	"github.com/stretchr/gomniauth"
-	"github.com/stretchr/gomniauth/providers/facebook"
-	"github.com/stretchr/gomniauth/providers/github"
-	"github.com/stretchr/gomniauth/providers/google"
+	"github.com/martini-contrib/auth"
 	"log"
 	"net"
 	"net/http"
@@ -22,8 +19,25 @@ const (
 )
 
 func main() {
-        martiniClassic := martini.Classic()
+        m := martini.Classic()
         token := token.NewToken();
-        webservice.RegisterWebService(token, martiniClassic)
-        martiniClassic.Run()
+        // Hardcore for test
+		m.Use(
+			Auth.BasicFunc(func(username, password string) bool {
+			    return username == "test" && password == "test"
+			  }
+			)
+        webservice.RegisterWebService(token, m)
+        webservice.RegisterWebService(user, m)
+
+       	m.Get("/",func() string {
+       		return "Hello, Andrew"
+       		})
+
+
+
+        m.Run()
 }
+
+
+

@@ -19,7 +19,6 @@ type Token struct {
 	cycle int32
 	image string
 	entries []*TokenEntry
-
 }
 
 
