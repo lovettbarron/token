@@ -4,10 +4,11 @@ import (
 	"fmt"
 	"github.com/go-martini/martini"
 	"github.com/martini-contrib/auth"
+	"github.com/martini-contrib/sessions"
+	"os"
 	"log"
 	"net"
 	"net/http"
-	"os"
 	"os/signal"
 	"time"
 )
@@ -30,7 +31,7 @@ func main() {
         webservice.RegisterWebService(token, m)
         webservice.RegisterWebService(user, m)
 
-       	m.Get("/",func() string {
+       	m.Get("/",func(user auth.User) string {
        		return "Hello, Andrew"
        		})
 
