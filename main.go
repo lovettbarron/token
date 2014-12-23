@@ -21,26 +21,15 @@ const (
 )
 
 func main() {
-        // m := martini.Classic()
         newUser := token.NewUser(0,0,0,"test","test","test@test","Testing")
         // userid, pwHash, pwSalt int32, username, fullname, email, intention string
         fmt.Println(newUser)
-        // Hardcore for test
-		// m.Use(
-		// 	Auth.BasicFunc(func(username, password string) bool {
-		// 	    return username == "test" && password == "test"
-		// 	  }
-		// 	)
-  //       webservice.RegisterWebService(token, m)
-  //       webservice.RegisterWebService(user, m)
 
-  //      	m.Get("/",func(user auth.User) string {
-  //      		return "Hello, Andrew"
-  //      		})
+        newToken := token.NewToken("Build Token",3)
+        fmt.Println(newToken)
 
-
-
-        // m.Run()
+        _ = newUser.AppendToken(newToken)
+		fmt.Println(newUser)        
 }
 
 

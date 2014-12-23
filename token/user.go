@@ -70,6 +70,12 @@ func (u *User) DeleteUser() int {
 }
 
 ///////// Tokens //////////
+// Create Token
+func (u *User) AppendToken(token *Token) int {
+	u.tokens = append(u.tokens,token)
+	return 0
+}
+
 // Get List of All Tokens
 func (t *Token) GetAllTokens() []*Token {
 	return nil
