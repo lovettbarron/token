@@ -77,21 +77,22 @@ func (u *User) AppendToken(token *Token) int {
 }
 
 // Get List of All Tokens
-func (t *Token) GetAllTokens() []*Token {
-	return nil
+func (u *User) GetAllTokens() []*Token {
+	return u.tokens
 }
 
 // Get most recently made Token (top)
-func (t *Token) GetLastToken() *TokenEntry {
-	return nil
+func (u *User) GetLastToken() *TokenEntry {
+	return u.tokens[len(u.tokens)]
 }
 
 // Delete all Tokens
-func (t *Token) RemoveAllTokens() int {
-	return 9
+func (u *User) RemoveAllTokens() int {
+	u.tokens = make([]*Token,0)
+	return 0
 }
 
 // Delete token
-func (t *Token) RemoveToken(tokenid int32) int {
+func (u *User) RemoveToken(tokenid int32) int {
 	return 0
 }
