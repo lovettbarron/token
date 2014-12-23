@@ -2,32 +2,43 @@ package token
 
 import(
 	"time"
-	"github.com/robfig/cron"
+	_ "fmt"
 )
 
 type Cycle struct {
-	duration int64
-	interval string
-	quantity int64
-	respawn Time
+	quantity int64 // How many times per interval
+	interval string // Intervals
+	start int64 // Timestamp for initial creation...
 }
 
-const (
-	DurationTypes = [1,2,3,4,5,6,7,8,9,10]
-	IntervalTypes = map[string]int64
-		"a day" : time.Hour * 24,
-		"a week": time.Hour * 24 * 7,
-		"a month": time.Hour * 24 * (time.Date(year, m+1, 0, 0, 0, 0, 0, time.UTC).Day())
-	QuantityTypes = [1,2,3,4,5]
-)
 
+var IntervalTypes = map[string]time.Duration{
+"a day" : time.Hour * 24,
+"a week": time.Hour * 24 * 7,
+"a month": time.Hour * 24 * 30,// lazy for now //(time.Date(time.Now().year(), m+1, 0, 0, 0, 0, 0, time.UTC).Day()),
+}
+
+
+func GetCycle(q int64, i string) *Cycle {
+	return &Cycle{
+		q,
+		i,
+		time.Now().Unix(),
+	}
+}
 
 // Checks if a token is available based on last token time within quantity available
 // I think.
+// Conceptually, this sets up the timing as "time since last used the last one," which may or may
+// not be how people actually concieve of this. Curious to try a few implementations/mental models.
 func (t *Token) isTokenAvailable() bool {
-	if(int64(len(t.tokens)) >=t.cycle.quantity) {
-		timeUsed := time.Parse(t.tokens[t.cycle.quantity].timestamp)
-		if(time.Now().after(timeUsed+t.token.cycle.intervalTypes)){
+	
+	if(int64(len(t.tokens)) >= t.cycle.quantity+1) {
+		lastToken := t.tokens[t.cycle.quantity-1]
+		timeUsed := time.Unix(lastToken.timestamp,0)
+
+		// Check if right now is AFTER the last token w/i bounds was used.
+		if(time.Now().After(timeUsed.Add(IntervalTypes[t.cycle.interval])) ) {
 			return false
 		} else {
 			return true

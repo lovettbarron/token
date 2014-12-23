@@ -25,13 +25,13 @@ func main() {
         // userid, pwHash, pwSalt int32, username, fullname, email, intention string
         fmt.Println(newUser)
 
-        newToken := token.NewToken("Build Token",3)
+        newToken := token.NewToken("Build Token",token.GetCycle(3,"a day"))
         fmt.Println(newToken)
 
         _ = newUser.AppendToken(newToken)
 		fmt.Println(newUser)        
 
-		fmt.Println(newUSer.getLastToken())
+		fmt.Println(newUser.GetLastToken())
 }
 
 

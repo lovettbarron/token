@@ -82,8 +82,8 @@ func (u *User) GetAllTokens() []*Token {
 }
 
 // Get most recently made Token (top)
-func (u *User) GetLastToken() *TokenEntry {
-	return u.tokens[len(u.tokens)]
+func (u *User) GetLastToken() *Token {
+	return u.tokens[len(u.tokens)-1]
 }
 
 // Delete all Tokens

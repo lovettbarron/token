@@ -29,12 +29,12 @@ type Token struct {
 
 /////// TOKEN ///////
 // Make new Token
-func NewToken(title string, cycle int64) *Token {
+func NewToken(title string, cycle *Cycle) *Token {
 	return &Token{
 		0,
 		0,
 		title,
-		cycle,
+		*cycle,
 		make([]*TokenEntry, 0),
 		new(sync.Mutex),
 	}
@@ -72,9 +72,9 @@ func (t *Token) GetMostRecentEntry() *TokenEntry {
 }
 
 // Get entry (id)
-func (t *Token) getEntry(entryid int64) *TokenEntry {
+func (t *Token) GetEntry(entryid int64) *TokenEntry {
 	if(entryid < 0 || entryid >= int64(len(t.tokens))) { return nil }
-	return t.tokens[len(t.tokens)]
+	return t.tokens[len(t.tokens)-1]
 }
 
 // Delete all Entries
