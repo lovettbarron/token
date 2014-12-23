@@ -30,6 +30,8 @@ func main() {
 
         _ = newUser.AppendToken(newToken)
 		fmt.Println(newUser)        
+
+		fmt.Println(newUSer.getLastToken())
 }
 
 

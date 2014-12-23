@@ -8,7 +8,6 @@ package token
 import (
 	"time"
 	"sync"
-	// "fmt"
 )
 
 type TokenEntry struct {
@@ -22,7 +21,7 @@ type Token struct {
 	tokenid int64
 	userid int64
 	title string
-	cycle int64
+	cycle Cycle
 	tokens []*TokenEntry
 	mutex *sync.Mutex
 }
