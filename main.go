@@ -21,7 +21,7 @@ const (
 
 func main() {
         // m := martini.Classic()
-        token := token.NewToken();
+        newToken := token.NewToken();
         // Hardcore for test
 		// m.Use(
 		// 	Auth.BasicFunc(func(username, password string) bool {
