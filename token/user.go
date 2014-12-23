@@ -8,7 +8,7 @@ import(
 
 
 type User struct {
-	userid int64
+	id int64
 	pwHash int64
 	pwSalt int64
 	created int64
@@ -36,7 +36,7 @@ type User struct {
 func NewUser(userid, pwHash, pwSalt int32, username, fullname, email, intention string) *User {
 
 	newUser := &User{
-		0,
+		userid,
 		0,
 		0,
 		time.Now().Unix(),
@@ -70,10 +70,18 @@ func (u *User) DeleteUser() int {
 }
 
 ///////// Tokens //////////
-// Create Token
-func (u *User) AppendToken(token *Token) int {
+// Generate Token for this user
+func (u *user) NewToken(title string, cycle *Cycle) *Token {
+	token = &Token{
+		len(u.tokens),
+		u.id,
+		title,
+		*cycle,
+		make([]*TokenEntry, 0),
+		new(sync.Mutex),
+	}
 	u.tokens = append(u.tokens,token)
-	return 0
+	return token
 }
 
 // Get List of All Tokens

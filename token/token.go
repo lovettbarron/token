@@ -11,14 +11,14 @@ import (
 )
 
 type TokenEntry struct {
-	entryid int64
+	id int64
 	tokenid int64
 	timestamp int64
 	value float32
 }
 
 type Token struct {
-	tokenid int64
+	id int64
 	userid int64
 	title string
 	cycle Cycle
@@ -27,18 +27,6 @@ type Token struct {
 }
 
 
-/////// TOKEN ///////
-// Make new Token
-func NewToken(title string, cycle *Cycle) *Token {
-	return &Token{
-		0,
-		0,
-		title,
-		*cycle,
-		make([]*TokenEntry, 0),
-		new(sync.Mutex),
-	}
-}
 
 
 /////// ENTRIES ///////
