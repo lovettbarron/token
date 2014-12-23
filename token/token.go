@@ -7,6 +7,7 @@ package token
 
 import (
 	"time"
+	"sync"
 )
 
 type TokenEntry struct {
@@ -21,7 +22,6 @@ type Token struct {
 	userid int32
 	title string
 	cycle int32
-	image string
 	tokens []*TokenEntry
 	mutex *sync.Mutex
 }
@@ -29,8 +29,12 @@ type Token struct {
 
 /////// TOKEN ///////
 // Make new Token
-func NewToken() *Token {
+func NewToken(title string, cycle int32) *Token {
 	return &Token{
+		0,
+		0,
+		title,
+		cycle,
 		make([]*TokenEntry, 0),
 		new(sync.Mutex),
 	}
@@ -40,21 +44,21 @@ func NewToken() *Token {
 /////// ENTRIES ///////
 // Make Entry
 func (t *Token) UseToken(value float32) *TokenEntry {
-	g.mutex.Lock()
-	defer g.mutex.Unlock()
+	t.mutex.Lock()
+	defer t.mutex.Unlock()
 
-	newId := len(g.tokens)
+	newId := len(t.tokens)
 	currentTime := time.UTC(time.Now())
 
 	entry := &TokenEntry{
 		newId,
-		g.id,
+		t.id,
 		currentTime,
 		value,
 	}
 
-	g.tokens = append(g.tokens,entry)
-	return g.tokens[len(g.tokens)]
+	t.tokens = append(t.tokens,entry)
+	return t.tokens[len(t.tokens)]
 }
 
 // Get All Token Entries
@@ -64,19 +68,19 @@ func (t *Token) GetAllTokenEntries() []*TokenEntry{
 
 // Get most recent entry 
 func (t *Token) GetMostRecentEntry() *TokenEntry {
-	return g.tokens[len(g.tokens)]
+	return t.tokens[len(t.tokens)]
 }
 
 // Get entry (id)
 func (t *Token) getEntry(entryid int32) *TokenEntry {
-	if(entryid < 0 || entryid >= len(g.tokens)) return nil
-	return g.tokens[len(g.tokens)]
+	if(entryid < 0 || entryid >= len(t.tokens)) { return nil }
+	return t.tokens[len(t.tokens)]
 }
 
 // Delete all Entries
 func (t *Token) RemoveAllEntries() int {
 	// Does this work?
-	g.tokens := make([]*TokenEntry, 0)
+	t.tokens = make([]*TokenEntry, 0)
 }
 
 // Delete Last Entry (Undo)
