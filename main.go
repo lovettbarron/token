@@ -2,9 +2,9 @@ package main
 
 import (
 	"fmt"
-	"github.com/go-martini/martini"
-	"github.com/martini-contrib/auth"
-	"github.com/martini-contrib/sessions"
+	// "github.com/go-martini/martini"
+	// "github.com/martini-contrib/auth"
+	// "github.com/martini-contrib/sessions"
 	"os"
 	"log"
 	"net"
@@ -20,24 +20,24 @@ const (
 )
 
 func main() {
-        m := martini.Classic()
+        // m := martini.Classic()
         token := token.NewToken();
         // Hardcore for test
-		m.Use(
-			Auth.BasicFunc(func(username, password string) bool {
-			    return username == "test" && password == "test"
-			  }
-			)
-        webservice.RegisterWebService(token, m)
-        webservice.RegisterWebService(user, m)
+		// m.Use(
+		// 	Auth.BasicFunc(func(username, password string) bool {
+		// 	    return username == "test" && password == "test"
+		// 	  }
+		// 	)
+  //       webservice.RegisterWebService(token, m)
+  //       webservice.RegisterWebService(user, m)
 
-       	m.Get("/",func(user auth.User) string {
-       		return "Hello, Andrew"
-       		})
+  //      	m.Get("/",func(user auth.User) string {
+  //      		return "Hello, Andrew"
+  //      		})
 
 
 
-        m.Run()
+        // m.Run()
 }
 
 
