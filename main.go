@@ -5,12 +5,12 @@ import (
 	// "github.com/go-martini/martini"
 	// "github.com/martini-contrib/auth"
 	// "github.com/martini-contrib/sessions"
-	"os"
-	"log"
-	"net"
-	"net/http"
-	"os/signal"
-	"time"
+	// "os"
+	// "log"
+	// "net"
+	// "net/http"
+	// "os/signal"
+	// "time"
 	"readywater/token/token"
 )
 
@@ -22,7 +22,9 @@ const (
 
 func main() {
         // m := martini.Classic()
-        newToken := token.NewToken();
+        newUser := token.NewUser(0,0,0,"test","test","test@test","Testing")
+        // userid, pwHash, pwSalt int32, username, fullname, email, intention string
+        fmt.Println(newUser)
         // Hardcore for test
 		// m.Use(
 		// 	Auth.BasicFunc(func(username, password string) bool {

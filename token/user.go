@@ -8,12 +8,12 @@ import(
 
 
 type User struct {
-	userid int32
-	pwHash int32
-	pwSalt int32
-	created int32
-	updated int32
-	lastActive int32
+	userid int64
+	pwHash int64
+	pwSalt int64
+	created int64
+	updated int64
+	lastActive int64
 	userName string
 	fullName string
 	email string
@@ -32,56 +32,60 @@ type User struct {
 // 	}
 // }
 
-func (u *User) defineNewUser(userid, pwHash, pwSalt int32, username, fullname, email, intention string) int {
+// (u *User)
+func NewUser(userid, pwHash, pwSalt int32, username, fullname, email, intention string) *User {
 
 	newUser := &User{
-		0
 		0,
 		0,
-		time.Now(),
-		time.Now()
-		time.Now(),
-		username
-		fullname
-		email
-		intention
-		0
-		false
-		make([]*Token,0)
+		0,
+		time.Now().Unix(),
+		time.Now().Unix(),
+		time.Now().Unix(),
+		username,
+		fullname,
+		email,
+		intention,
+		0,
+		false,
+		make([]*Token,0),
+		new(sync.Mutex),
 	}
 
-	return 0
+	// _ = newUser // Just to get to compile
+
+	return newUser
 }
 
 func (u *User) Authenticate() int {
-
+	return 0
 }
 
 func (u *User) UpdateInfo(name, email, intention, password string) int {
-
+	return 0
 }
 
 func (u *User) DeleteUser() int {
-
+	return 0
 }
 
 ///////// Tokens //////////
 // Get List of All Tokens
 func (t *Token) GetAllTokens() []*Token {
-
+	return nil
 }
 
 // Get most recently made Token (top)
 func (t *Token) GetLastToken() *TokenEntry {
-
+	return nil
 }
 
 // Delete all Tokens
 func (t *Token) RemoveAllTokens() int {
-
+	return 9
 }
 
 // Delete token
 func (t *Token) RemoveToken(tokenid int32) int {
-
+	return 0
 }
