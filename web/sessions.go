@@ -2,17 +2,17 @@ package web
 
 import(
 	"net/http"
-	"github.com/gorilla/mux"
-	"github.com/gorilla/handlers"
-	"github.com/gorilla/sessions"
-	"github.com/gorilla/securecookie"
+	_ "github.com/gorilla/mux"
+	_ "github.com/gorilla/handlers"
+	_ "github.com/gorilla/sessions"
+	_ "github.com/gorilla/securecookie"
 	)
 
 // Snagged most of this from: https://gist.github.com/mschoebel/9398202
 
 var cookie = securecookie.New(
 		securecookie.GenerateRandomKey(64),
-		securecookie.GenerateRandomKey(32)
+		securecookie.GenerateRandomKey(32),
 	)
 
 func getUserName(request *http.Request) (userName string) {

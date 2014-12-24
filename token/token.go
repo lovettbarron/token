@@ -3,22 +3,25 @@ package token
 import (
 	"time"
 	"sync"
+	// "github.com/coopernurse/gorp"
 )
 
 type TokenEntry struct {
-	id int64
-	tokenid int64
-	timestamp int64
-	value float32
+	id int64		`id`
+	tokenid int64	`tokenid`
+	timestamp int64	`timestamp`
+	value float32	`value`
 }
 
 type Token struct {
-	id int64
-	userid int64
-	title string
-	cycle Cycle
-	tokens []*TokenEntry
-	mutex *sync.Mutex
+	id int64				`id`
+	userid int64			`userid`
+	title string			`title`
+	quantity int64 			`quantity`
+	interval string 		`interval`
+	start int64 			`start`
+	tokens []*TokenEntry	`db:"-"`
+	mutex *sync.Mutex		`db:"-"`
 }
 
 /////// ENTRIES ///////

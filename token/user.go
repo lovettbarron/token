@@ -8,31 +8,22 @@ import(
 
 
 type User struct {
-	id int64
-	pwHash int64
-	pwSalt int64
-	created int64
-	updated int64
-	lastActive int64
-	userName string
-	fullName string
-	email string
-	intention string
-	score int
-	disable bool
-	tokens []*Token
-	mutex *sync.Mutex
+	id int64			`id`
+	pwHash int64		`pwhash`
+	pwSalt int64		`pwsalt`
+	created int64		`created`
+	updated int64		`updated`
+	lastActive int64	`lastactive`
+	userName string		`username`
+	fullName string		`fullname`
+	email string		`email`
+	intention string	`intention`
+	score int 			`score`
+	disable bool		`bool`
+	tokens []*Token     `db:"-"`
+	mutex *sync.Mutex 	`db:"-"`
 }
 
-// Is this chunk necessary?
-// func newUser() *User {
-// 	return &User{
-// 		make([]*Token,0)
-// 		new(sync.Mutex)
-// 	}
-// }
-
-// (u *User)
 func NewUser(userid, pwHash, pwSalt int64, username, fullname, email, intention string) *User {
 
 	newUser := &User{
@@ -51,9 +42,6 @@ func NewUser(userid, pwHash, pwSalt int64, username, fullname, email, intention 
 		make([]*Token,0),
 		new(sync.Mutex),
 	}
-
-	// _ = newUser // Just to get to compile
-
 	return newUser
 }
 
@@ -71,12 +59,14 @@ func (u *User) DeleteUser() int {
 
 ///////// Tokens //////////
 // Generate Token for this user
-func (u *User) NewToken(title string, cycle *Cycle) *Token {
+func (u *User) NewToken(title string, quant int64, interval string) *Token {
 	token := &Token{
 		int64(len(u.tokens)),
 		u.id,
 		title,
-		*cycle,
+		quant,
+		interval,
+		time.Now().Unix(),
 		make([]*TokenEntry, 0),
 		new(sync.Mutex),
 	}
