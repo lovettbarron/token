@@ -2,15 +2,11 @@ package main
 
 import (
 	"fmt"
-	// "github.com/go-martini/martini"
-	// "github.com/martini-contrib/auth"
-	// "github.com/martini-contrib/sessions"
-	// "os"
-	// "log"
-	// "net"
-	// "net/http"
-	// "os/signal"
-	// "time"
+	"net/http"
+	"github.com/gorilla/mux"
+	"github.com/gorilla/handlers"
+	"github.com/gorilla/sessions"
+	"github.com/gorilla/securecookie"
 	"readywater/token/token"
 )
 
@@ -21,6 +17,10 @@ const (
 )
 
 func main() {
+
+}
+
+func test() {
         user0 := token.NewUser(0,0,0,"test0","test0","test0@test","Testing0")
         user1 := token.NewUser(1,0,0,"test1","test1","test1@test","Testing1")
         // userid, pwHash, pwSalt int32, username, fullname, email, intention string
@@ -40,6 +40,4 @@ func main() {
 		tokenId.UseToken()
 		tokenId.UseToken()
 }
-
-
 
