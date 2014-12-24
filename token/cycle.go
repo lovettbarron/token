@@ -2,7 +2,7 @@ package token
 
 import(
 	"time"
-	_ "fmt"
+	"fmt"
 )
 
 type Cycle struct {
@@ -31,19 +31,22 @@ func GetCycle(q int64, i string) *Cycle {
 // I think.
 // Conceptually, this sets up the timing as "time since last used the last one," which may or may
 // not be how people actually concieve of this. Curious to try a few implementations/mental models.
-func (t *Token) isTokenAvailable() bool {
-	
+func (t *Token) IsTokenAvailable() bool {
+
 	if(int64(len(t.tokens)) >= t.cycle.quantity+1) {
 		lastToken := t.tokens[t.cycle.quantity-1]
 		timeUsed := time.Unix(lastToken.timestamp,0)
 
 		// Check if right now is AFTER the last token w/i bounds was used.
 		if(time.Now().After(timeUsed.Add(IntervalTypes[t.cycle.interval])) ) {
+			fmt.Println(t.title, " is NOT available")
 			return false
 		} else {
+			fmt.Println(t.title, " is available")
 			return true
 		}
 	} else {
+		fmt.Println(t.title, " is available")
 		return true
 	}
 }

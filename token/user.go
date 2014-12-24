@@ -33,7 +33,7 @@ type User struct {
 // }
 
 // (u *User)
-func NewUser(userid, pwHash, pwSalt int32, username, fullname, email, intention string) *User {
+func NewUser(userid, pwHash, pwSalt int64, username, fullname, email, intention string) *User {
 
 	newUser := &User{
 		userid,
@@ -71,9 +71,9 @@ func (u *User) DeleteUser() int {
 
 ///////// Tokens //////////
 // Generate Token for this user
-func (u *user) NewToken(title string, cycle *Cycle) *Token {
-	token = &Token{
-		len(u.tokens),
+func (u *User) NewToken(title string, cycle *Cycle) *Token {
+	token := &Token{
+		int64(len(u.tokens)),
 		u.id,
 		title,
 		*cycle,

@@ -31,22 +31,26 @@ type Token struct {
 
 /////// ENTRIES ///////
 // Make Entry
-func (t *Token) UseToken(user User, value float32) *TokenEntry {
+func (t *Token) UseToken() int64 {
 	t.mutex.Lock()
 	defer t.mutex.Unlock()
 
-	newId := int64(len(user.tokens))
-	currentTime := time.Now().Unix()
+	if !t.IsTokenAvailable() { 
+		return -1
+	} else {
+		newId := int64(len(t.tokens))
+		currentTime := time.Now().Unix()
 
-	entry := &TokenEntry{
-		newId,
-		user.userid,
-		currentTime,
-		value,
+		entry := &TokenEntry{
+			newId,
+			t.userid,
+			currentTime,
+			1.0,
+		}
+
+		t.tokens = append(t.tokens,entry)
+		return 1
 	}
-
-	t.tokens = append(t.tokens,entry)
-	return t.tokens[len(t.tokens)]
 }
 
 // Get All Token Entries
