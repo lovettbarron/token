@@ -38,6 +38,7 @@ func main() {
 		tokenId.UseToken()
 		tokenId.UseToken()
 		tokenId.UseToken()
+		tokenId.UseToken()
 }
 
 

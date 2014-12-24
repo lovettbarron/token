@@ -33,22 +33,22 @@ func GetCycle(q int64, i string) *Cycle {
 // not be how people actually concieve of this. Curious to try a few implementations/mental models.
 func (t *Token) IsTokenAvailable() bool {
 
-	if(int64(len(t.tokens)) >= t.cycle.quantity+1) {
+	if(int64(len(t.tokens)) >= t.cycle.quantity) {
 		lastToken := t.tokens[t.cycle.quantity-1]
 		timeUsed := time.Unix(lastToken.timestamp,0)
 
 		// Check if right now is AFTER the last token w/i bounds was used.
 		fmt.Println("TimeUsed ",timeUsed.Add(IntervalTypes[t.cycle.interval]) )
 		fmt.Println("Now ", time.Now())
-		if(time.Now().After(timeUsed.Add(IntervalTypes[t.cycle.interval])) ) {
-			fmt.Println(t.title, " is NOT available")
+		if(time.Now().Before(timeUsed.Add(IntervalTypes[t.cycle.interval])) ) {
+			fmt.Println(t.title, "is NOT available")
 			return false
 		} else {
-			fmt.Println(t.title, " is available")
+			fmt.Println(t.title, "is available")
 			return true
 		}
 	} else {
-		fmt.Println(t.title, " is available")
+		fmt.Println(t.title, "is available")
 		return true
 	}
 }
