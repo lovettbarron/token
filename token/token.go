@@ -21,9 +21,6 @@ type Token struct {
 	mutex *sync.Mutex
 }
 
-
-
-
 /////// ENTRIES ///////
 // Make Entry
 func (t *Token) UseToken() int64 {

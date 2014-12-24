@@ -8,6 +8,7 @@ import (
 	"github.com/gorilla/sessions"
 	"github.com/gorilla/securecookie"
 	"readywater/token/token"
+	"readywater/token/web"
 )
 
 const (
@@ -16,7 +17,24 @@ const (
 	Address string = ":8080"
 )
 
+var r = mux.NewRouter()
+var t = r.PathPrefix("/token").SubRouter()
+var u = r.PathPrefix("/user").SubRouter()
+
 func main() {
+	r.HandleFunc("/",IndexHandler)
+	r.HandleFunc("/login", web.LoginHandler)
+	r.HandleFunc("/logout", web.LogoutHandler)
+
+	// User Handlers
+	u.HandleFunc("/",web.GetUserHandler).Methods("GET")
+	u.HandleFunc("/{data}",web.UpdateUserHandler).Methods("POST")
+	u.HandleFunc("/",web.DeleteUserHandler).Methods("DELETE")
+
+	// Token Handlers
+	t.HandleFunc("/", web.GetTokenListHandler).Methods("GET")
+	t.HandleFunc("/{id}", web.GetTokenHandler).Methods("GET")
+	t.HandleFunc("/{id}", web.UseTokenHandler).Methods("POST")
 
 }
 
