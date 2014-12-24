@@ -33,8 +33,11 @@ func main() {
 
 	// Token Handlers
 	t.HandleFunc("/", web.GetTokenListHandler).Methods("GET")
+	t.HandleFunc("/", web.CreateTokenHandler).Methods("POST")
+	// Individual
 	t.HandleFunc("/{id}", web.GetTokenHandler).Methods("GET")
 	t.HandleFunc("/{id}", web.UseTokenHandler).Methods("POST")
+	t.HandleFunc("/{id}", web.DeleteTokenHandler).Methods("DELETE")
 
 }
 

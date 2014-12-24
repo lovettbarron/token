@@ -2,7 +2,6 @@ package web
 
 import(
 	"net/http"
-// 	"github.com/gorilla/mux"
 	"github.com/gorilla/handlers"
 	"github.com/gorilla/sessions"
 	"github.com/gorilla/securecookie"
@@ -11,39 +10,46 @@ import(
 
 ///// User /////
 //Read
-func GetUserHandler() {
+func GetUserHandler(res http.ResponseWriter, req *http.Request) {
 
 }
 
 //update/create
-func UpdateUserHandler() {
+func UpdateUserHandler(res http.ResponseWriter, req *http.Request) {
 
 }
 
 //Delete
-func DeleteUserHandler() {
-
+func DeleteUserHandler(res http.ResponseWriter, req *http.Request) {
+	
 }
 
 ///// Token //////
 //New Token
+func CreateTokenHandler(res http.ResponseWriter, req *http.Request) {
+
+}
 
 //Get All
-func GetTokenListHandler() {
+func GetTokenListHandler(res http.ResponseWriter, req *http.Request) {
 
 }
 // Get a token
-func GetTokenHandler() {
+func GetTokenHandler(res http.ResponseWriter, req *http.Request) {
 
 }
 
-// Remove All
+// Remove Token
+func DeleteTokenHandler(res http.ResponseWriter, req *http.Request) {
 
-// Remove Last
+}
 
 
 /// Entries ///
 // Use Token
+func UseTokenHandler(res http.ResponseWriter, req *http.Request) {
+
+}
 
 // GetMostRecent
 
