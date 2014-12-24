@@ -3,34 +3,14 @@ package web
 import(
 	"fmt"
 	"net/http"
-	"encoding/json"
+	_ "encoding/json"
 	// "github.com/lib/pq"
 	// "database/sql"
 	_ "github.com/gorilla/handlers"
 	_ "github.com/gorilla/sessions"
 	_ "github.com/gorilla/securecookie"
-	"readywater/token/token"
+	_ "readywater/token/token"
 )
-
-// Fake user until DB setup
-var u = token.NewUser(0,0,0,"test0","test0","test0@test","Testing0")
-
-
-
-func GetUser() *token.User {
-	return u
-}
-
-func toJson(data interface{}) (string, error) {
-	dataJson,err := json.Marshal(data)
-	if err != nil {
-		fmt.Println(err)
-		return "error",err
-	}
-	return string(dataJson),nil
-}
-
-/////// General //////
 
 
 ///// User /////

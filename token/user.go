@@ -8,20 +8,20 @@ import(
 
 
 type User struct {
-	id int64			`id`
-	pwHash int64		`pwhash`
-	pwSalt int64		`pwsalt`
-	created int64		`created`
-	updated int64		`updated`
-	lastActive int64	`lastactive`
-	userName string		`username`
-	fullName string		`fullname`
-	email string		`email`
-	intention string	`intention`
-	score int 			`score`
-	disable bool		`bool`
-	tokens []*Token     `db:"-"`
-	mutex *sync.Mutex 	`db:"-"`
+	id int64			`json:"id"`
+	pwHash int64		`json:"-"`
+	pwSalt int64		`json:"-"`
+	created int64		`json:"created"`
+	updated int64		`json:"updated"`
+	lastActive int64	`json:"lastActive"`
+	userName string		`json:"userName"`
+	fullName string		`json:"fullName"`
+	email string		`json:"email"`
+	intention string	`json:"intention"`
+	score int 			`json:"score"`
+	disable bool		`json:"-"`
+	tokens []*Token     `json:"-"`
+	mutex *sync.Mutex 	`json:"-"`
 }
 
 func NewUser(userid, pwHash, pwSalt int64, username, fullname, email, intention string) *User {
