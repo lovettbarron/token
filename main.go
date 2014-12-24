@@ -1,7 +1,7 @@
 package main
 
 import (
-	// "fmt"
+	"fmt"
 	"net/http"
 	"github.com/gorilla/mux"
 	// "github.com/gorilla/handlers"
@@ -14,7 +14,7 @@ import (
 const (
 	// NOTE: Don't change this, the auth settings on the providers
 	// are coded to this path for this example.
-	Port string = ":8080"
+	Port string = ":8000"
 )
 
 var r = mux.NewRouter()
@@ -45,8 +45,8 @@ func main() {
 	t.HandleFunc("/{id}", web.DeleteTokenHandler).Methods("DELETE")
 
 	http.Handle("/", r)
+	fmt.Println("Server running at port",Port)
 	http.ListenAndServe(Port, nil)
-
 }
 
 func test() {

@@ -38,6 +38,7 @@ func toJson(data interface{}) (string, error) {
 func GetUserHandler(res http.ResponseWriter, req *http.Request) {
 	user := GetUser()
 	userJson,_ := toJson(user)
+	fmt.Println("Called user",userJson)
 	fmt.Fprintf(res, userJson)
 }
 
