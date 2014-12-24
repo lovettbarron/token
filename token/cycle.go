@@ -38,6 +38,8 @@ func (t *Token) IsTokenAvailable() bool {
 		timeUsed := time.Unix(lastToken.timestamp,0)
 
 		// Check if right now is AFTER the last token w/i bounds was used.
+		fmt.Println("TimeUsed ",timeUsed.Add(IntervalTypes[t.cycle.interval]) )
+		fmt.Println("Now ", time.Now())
 		if(time.Now().After(timeUsed.Add(IntervalTypes[t.cycle.interval])) ) {
 			fmt.Println(t.title, " is NOT available")
 			return false
