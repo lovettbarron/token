@@ -46,8 +46,11 @@ func CreateTokenHandler(res http.ResponseWriter, req *http.Request) {
 
 //Get All
 func GetTokenListHandler(res http.ResponseWriter, req *http.Request) {
-	// user := GetUser()
-
+	user := GetUser()
+	tokens := user.GetAllTokens()
+	tkJson,_ := toJson(tokens)
+	fmt.Println("CallingUserToken",tkJson)
+	fmt.Fprintf(res, tkJson)
 }
 // Get a token
 func GetTokenHandler(res http.ResponseWriter, req *http.Request) {

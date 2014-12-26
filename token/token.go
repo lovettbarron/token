@@ -7,19 +7,19 @@ import (
 )
 
 type TokenEntry struct {
-	id int64		`id`
-	tokenid int64	`tokenid`
-	timestamp int64	`timestamp`
-	value float32	`value`
+	Id int64		`id`
+	Tokenid int64	`tokenid`
+	Timestamp int64	`timestamp`
+	Value float32	`value`
 }
 
 type Token struct {
-	id int64				`id`
-	userid int64			`userid`
-	title string			`title`
-	quantity int64 			`quantity`
-	interval string 		`interval`
-	start int64 			`start`
+	Id int64				`id`
+	Userid int64			`userid`
+	Title string			`title`
+	Quantity int64 			`quantity`
+	Interval string 		`interval`
+	Start int64 			`start`
 	tokens []*TokenEntry	`db:"-"`
 	mutex *sync.Mutex		`db:"-"`
 }
@@ -38,7 +38,7 @@ func (t *Token) UseToken() int64 {
 
 		entry := &TokenEntry{
 			newId,
-			t.userid,
+			t.Userid,
 			currentTime,
 			1.0,
 		}

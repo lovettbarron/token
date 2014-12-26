@@ -8,20 +8,20 @@ import(
 
 
 type User struct {
-	id int64			`json:"id"`
-	pwHash int64		`json:"-"`
-	pwSalt int64		`json:"-"`
-	created int64		`json:"created"`
-	updated int64		`json:"updated"`
-	lastActive int64	`json:"lastActive"`
-	userName string		`json:"userName"`
-	fullName string		`json:"fullName"`
-	email string		`json:"email"`
-	intention string	`json:"intention"`
-	score int 			`json:"score"`
-	disable bool		`json:"-"`
-	tokens []*Token     `json:"-"`
-	mutex *sync.Mutex 	`json:"-"`
+	Id int64			`json:"id"`
+	PwHash int64		`json:"-"`
+	PwSalt int64		`json:"-"`
+	Created int64		`json:"created"`
+	Updated int64		`json:"updated"`
+	LastActive int64	`json:"lastActive"`
+	UserName string		`json:"userName"`
+	FullName string		`json:"fullName"`
+	Email string		`json:"email"`
+	Intention string	`json:"intention"`
+	Score int64			`json:"score"`
+	Disable bool		`json:"-"`
+	Tokens []*Token     `json:"-"`
+	Mutex *sync.Mutex 	`json:"-"`
 }
 
 func NewUser(userid, pwHash, pwSalt int64, username, fullname, email, intention string) *User {
@@ -61,8 +61,8 @@ func (u *User) DeleteUser() int {
 // Generate Token for this user
 func (u *User) NewToken(title string, quant int64, interval string) *Token {
 	token := &Token{
-		int64(len(u.tokens)),
-		u.id,
+		int64(len(u.Tokens)),
+		u.Id,
 		title,
 		quant,
 		interval,
@@ -70,23 +70,23 @@ func (u *User) NewToken(title string, quant int64, interval string) *Token {
 		make([]*TokenEntry, 0),
 		new(sync.Mutex),
 	}
-	u.tokens = append(u.tokens,token)
+	u.Tokens = append(u.Tokens,token)
 	return token
 }
 
 // Get List of All Tokens
 func (u *User) GetAllTokens() []*Token {
-	return u.tokens
+	return u.Tokens
 }
 
 // Get most recently made Token (top)
 func (u *User) GetLastToken() *Token {
-	return u.tokens[len(u.tokens)-1]
+	return u.Tokens[len(u.Tokens)-1]
 }
 
 // Delete all Tokens
 func (u *User) RemoveAllTokens() int {
-	u.tokens = make([]*Token,0)
+	u.Tokens = make([]*Token,0)
 	return 0
 }
 
