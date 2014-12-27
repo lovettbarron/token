@@ -7,7 +7,7 @@ import (
 	// "github.com/gorilla/handlers"
 	// "github.com/gorilla/sessions"
 	// "github.com/gorilla/securecookie"
-	// "readywater/token/token"
+	"readywater/token/token"
 	"readywater/token/web"
 )
 
@@ -46,5 +46,7 @@ func main() {
 
 	http.Handle("/", r)
 	fmt.Println("Server running at port",Port)
+	token.ConnectToDB();
+	defer token.DisconnectFromDB()
 	http.ListenAndServe(Port, nil)
 }

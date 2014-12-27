@@ -7,21 +7,21 @@ import (
 )
 
 type TokenEntry struct {
-	Id int64		`json:"id"`
-	Tokenid int64	`json:"tokenid"`
-	Timestamp int64	`json:"timestamp"`
-	Value float32	`json:"val"`
+	Id int64		`json:"id" db:"id"`
+	Tokenid int64	`json:"tokenid" db:"tokenid"`
+	Timestamp int64	`json:"timestamp" db:"timestamp"`
+	Value float32	`json:"value" db:"value"`
 }
 
 type Token struct {
-	Id int64				`json:"id"`
-	Userid int64			`json:"-"`
-	Title string			`json:"title"`
-	Quantity int64 			`json:"quantity"`
-	Interval string 		`json:"interval"`
-	Start int64 			`json:"start"`
-	tokens []*TokenEntry	`json:"-"`
-	mutex *sync.Mutex		`json:"-"`
+	Id int64				`json:"id" db:"id"`
+	Userid int64			`json:"-" db:"userid"`
+	Title string			`json:"title" db:"title"`
+	Quantity int64 			`json:"quantity" db:"quantity"`
+	Interval string 		`json:"interval" db:"interval"`
+	Start int64 			`json:"start" db:"start"`
+	tokens []*TokenEntry	`json:"-" db:"-"`
+	mutex *sync.Mutex		`json:"-" db:"-"`
 }
 
 /////// ENTRIES ///////

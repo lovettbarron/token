@@ -62,9 +62,8 @@ func GetTokenHandler(res http.ResponseWriter, req *http.Request) {
 }
 
 func GetMostRecentEntriesHandler(res http.ResponseWriter, req *http.Request) {
-	user := GetUser()
-	tokens := user.req.tokens
-	// entries := 
+	// user := GetUser()
+	// tokens := user.tokens
 	// GetMostRecentEntries()
 }
 

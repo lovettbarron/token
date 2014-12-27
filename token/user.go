@@ -7,20 +7,20 @@ import(
 )
 
 type User struct {
-	Id int64			`json:"id"`
-	PwHash int64		`json:"-"`
-	PwSalt int64		`json:"-"`
-	Created int64		`json:"created"`
-	Updated int64		`json:"updated"`
-	LastActive int64	`json:"lastActive"`
-	UserName string		`json:"userName"`
-	FullName string		`json:"fullName"`
-	Email string		`json:"email"`
-	Intention string	`json:"intention"`
-	Score int64			`json:"score"`
-	Disable bool		`json:"-"`
-	Tokens []*Token     `json:"-"`
-	Mutex *sync.Mutex 	`json:"-"`
+	Id int64			`json:"id" db:"id"`
+	PwHash int64		`json:"-" db:"pwhash"`
+	PwSalt int64		`json:"-" db:"pwsalt"`
+	Created int64		`json:"created" db:"created"`
+	Updated int64		`json:"updated" db:"updated"`
+	LastActive int64	`json:"lastActive" db:"lastactive"`
+	UserName string		`json:"userName" db:"username"`
+	FullName string		`json:"fullName" db:"fullname"`
+	Email string		`json:"email" db:"email"`
+	Intention string	`json:"intention" db:"intention"`
+	Score int64			`json:"score" db:"score"`
+	Disable bool		`json:"-" db:"disable"`
+	Tokens []*Token     `json:"-" db:"-"`
+	Mutex *sync.Mutex 	`json:"-" db:"-"`
 }
 
 func NewUser(userid, pwHash, pwSalt int64, username, fullname, email, intention string) *User {
