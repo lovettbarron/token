@@ -4,9 +4,6 @@ import (
 	"fmt"
 	"net/http"
 	"github.com/gorilla/mux"
-	// "github.com/gorilla/handlers"
-	// "github.com/gorilla/sessions"
-	// "github.com/gorilla/securecookie"
 	"readywater/token/token"
 	"readywater/token/web"
 )
@@ -45,8 +42,11 @@ func main() {
 	t.HandleFunc("/{id}", web.DeleteTokenHandler).Methods("DELETE")
 
 	http.Handle("/", r)
-	fmt.Println("Server running at port",Port)
+
+	// Connect DB
 	token.ConnectToDB();
 	defer token.DisconnectFromDB()
+
+	fmt.Println("Server running at port",Port)
 	http.ListenAndServe(Port, nil)
 }

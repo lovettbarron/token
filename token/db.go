@@ -27,17 +27,23 @@ func ConnectToDB() {
 		" dbname=",dbName,
 		" user=",dbUser,
 		" password=",dbPass,
-		" sslmode=disabled",
+		" sslmode=disable",
 	}
 	s := strings.Join(t,"")
-	db, err := sql.Open(dbType,s)
+	var err error
+	tdb, err = sql.Open(dbType,s)
 	if err != nil {
 		log.Fatal(err)
 		fmt.Println(err)
 	}
-	db.Ping()
+	err = tdb.Ping()
+	if err != nil {
+		log.Fatal(err)
+		fmt.Println(err)
+	}
+
 	fmt.Println("Successfully connect to",dbName)
-	tdb = db
+	// tdb = db
 }
 
 func DisconnectFromDB() {

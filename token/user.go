@@ -3,7 +3,7 @@ package token
 import(
 	"sync"
 	"time"
-
+	"fmt"
 )
 
 type User struct {
@@ -41,6 +41,27 @@ func NewUser(userid, pwHash, pwSalt int64, username, fullname, email, intention 
 		make([]*Token,0),
 		new(sync.Mutex),
 	}
+
+	// err := tdb.QueryRow(`INSERT INTO user(pwhash, pwsalt,created,updated,lastactive,username,fullname,email,intention,score,disable).VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9)  RETURNING id`,
+	// 	newUser.PwHash, newUser.PwSalt, newUser.Created,
+	// 	newUser.Updated, newUser.LastActive, newUser.UserName,
+	// 	newUser.FullName, newUser.Email, newUser.Intention,
+	// 	newUser.Score, newUser.Disable).Scan(&newUser.Id)
+
+	if(tdb == nil) { return newUser }
+
+fmt.Println(newUser.PwHash, newUser.PwSalt, newUser.Created,newUser.Updated, newUser.LastActive, newUser.UserName,newUser.FullName, newUser.Email, newUser.Intention,newUser.Score, newUser.Disable)
+
+	var stmt string = "INSERT INTO user(pwhash, pwsalt,created,updated,lastactive,username,fullname,email,intention,score,disable).VALUES( ($1),($2),($3),($4),($5),($6),($7),($8),($9))"
+	query,_ := tdb.Prepare(stmt)
+	defer query.Close()
+
+	_,err := query.Exec(newUser.PwHash, newUser.PwSalt, newUser.Created,newUser.Updated, newUser.LastActive, newUser.UserName,newUser.FullName, newUser.Email, newUser.Intention,newUser.Score, newUser.Disable)
+
+	if err != nil {
+	    fmt.Println(err)
+	}
+
 	return newUser
 }
 

@@ -4,10 +4,6 @@ import(
 	"fmt"
 	"encoding/json"
 	"readywater/token/token"
-	"database/sql"
-	 _ "github.com/lib/pq"
-	"log"
-
 )
 
 const (
@@ -50,21 +46,6 @@ func toJson(data interface{}) (string, error) {
 	return string(dataJson),nil
 }
 
-func ConnectToDB() (db *sql.DB)	 {
-	db, err := sql.Open("postgres","host=localhost dbname=testdb sslmode=disable")
-	if err != nil {
-		log.Fatal(err)
-	}
-	return db
-}
-
-func DisconnectFromDB(db *sql.DB) int {
-	return -1
-}
-
-func Q(string, db *sql.DB) {
-
-}
 
 /*
 func hashPassword(username, password string) string {

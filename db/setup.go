@@ -50,18 +50,18 @@ CREATE USER token WITH PASSWORD 'token_test';
 CREATE DATABASE token OWNER token;
 
 CREATE TABLE "user" ( id bigserial primary key,
-					pwhash int NOT NULL,
-					pwsalt int NOT NULL,
-					created timestamp NOT NULL,	
-					updated timestamp NOT NULL,
-					lastactive timestamp NOT NULL,
-					username text NOT NULL,
-					fullname text,
-					email varchar(20) NOT NULL,
-					intention text,
-					score int,
-					disable bool
-					);
+	pwhash int NOT NULL,
+	pwsalt int NOT NULL,
+	created timestamp NOT NULL,	
+	updated timestamp NOT NULL,
+	lastactive timestamp NOT NULL,
+	username text NOT NULL,
+	fullname text,
+	email varchar(20) NOT NULL,
+	intention text,
+	score int,
+	disable bool
+	);
 
 CREATE TABLE "token" ( id bigserial primary key,
 	userid bigint NOT NULL,
