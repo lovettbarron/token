@@ -54,7 +54,18 @@ func GetTokenListHandler(res http.ResponseWriter, req *http.Request) {
 }
 // Get a token
 func GetTokenHandler(res http.ResponseWriter, req *http.Request) {
-	// user := GetUser()
+	user := GetUser()
+	tokens := user.GetAllTokens()
+	tkJson,_ := toJson(tokens)
+	fmt.Println("CallingTokenDetails",tkJson)
+	fmt.Fprintf(res, tkJson)
+}
+
+func GetMostRecentEntriesHandler(res http.ResponseWriter, req *http.Request) {
+	user := GetUser()
+	tokens := user.req.tokens
+	// entries := 
+	// GetMostRecentEntries()
 }
 
 // Remove Token

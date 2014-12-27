@@ -6,7 +6,6 @@ import(
 
 )
 
-
 type User struct {
 	Id int64			`json:"id"`
 	PwHash int64		`json:"-"`
@@ -82,6 +81,16 @@ func (u *User) GetAllTokens() []*Token {
 // Get most recently made Token (top)
 func (u *User) GetLastToken() *Token {
 	return u.Tokens[len(u.Tokens)-1]
+}
+
+// Retrieve specific Token
+func (u *User) GetToken(id int64) *Token {
+	for _,t := range u.Tokens {
+		if t.Id == id {
+			return t
+		}
+	}
+	return nil
 }
 
 // Delete all Tokens

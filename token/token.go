@@ -7,21 +7,21 @@ import (
 )
 
 type TokenEntry struct {
-	Id int64		`id`
-	Tokenid int64	`tokenid`
-	Timestamp int64	`timestamp`
-	Value float32	`value`
+	Id int64		`json:"id"`
+	Tokenid int64	`json:"tokenid"`
+	Timestamp int64	`json:"timestamp"`
+	Value float32	`json:"val"`
 }
 
 type Token struct {
-	Id int64				`id`
-	Userid int64			`userid`
-	Title string			`title`
-	Quantity int64 			`quantity`
-	Interval string 		`interval`
-	Start int64 			`start`
-	tokens []*TokenEntry	`db:"-"`
-	mutex *sync.Mutex		`db:"-"`
+	Id int64				`json:"id"`
+	Userid int64			`json:"-"`
+	Title string			`json:"title"`
+	Quantity int64 			`json:"quantity"`
+	Interval string 		`json:"interval"`
+	Start int64 			`json:"start"`
+	tokens []*TokenEntry	`json:"-"`
+	mutex *sync.Mutex		`json:"-"`
 }
 
 /////// ENTRIES ///////
@@ -56,6 +56,15 @@ func (t *Token) GetAllTokenEntries() []*TokenEntry{
 // Get most recent entry 
 func (t *Token) GetMostRecentEntry() *TokenEntry {
 	return t.tokens[len(t.tokens)]
+}
+
+// Get Most Recent Relevant Entries
+func (t *Token) GetMostRecentEntries() []*TokenEntry {
+	var toReturn []*TokenEntry
+	for i:=len(t.tokens); i<len(t.tokens)-int(t.Quantity); i-- {
+		toReturn = append(toReturn,t.tokens[i])
+	}
+	return toReturn
 }
 
 // Get entry (id)
