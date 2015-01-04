@@ -24,12 +24,36 @@ type User struct {
 	Mutex *sync.Mutex 	`json:"-" db:"-"`
 }
 
+func CreateEmptyUser() *User {
+
+	newUser := &User{
+		0,
+		0,
+		0,
+		time.Now().Unix(),
+		time.Now().Unix(),
+		time.Now().Unix(),
+		"",
+		"",
+		"",
+		"",
+		0,
+		false,
+		make([]*Token,0),
+		new(sync.Mutex),
+	}
+
+	return newUser
+}
+
 func NewUser(userid, pwHash, pwSalt int64, username, fullname, email, intention string) int64 {
 
 	fmt.Println("Making new user")
 
+	theId := rand.Int63()
+
 	newUser := &User{
-		userid,
+		theId,
 		0,
 		0,
 		time.Now().Unix(),
@@ -45,26 +69,12 @@ func NewUser(userid, pwHash, pwSalt int64, username, fullname, email, intention 
 		new(sync.Mutex),
 	}
 
-	// err := tdb.QueryRow(`INSERT INTO user(pwhash, pwsalt,created,updated,lastactive,username,fullname,email,intention,score,disable).VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9)  RETURNING id`,
-	// 	newUser.PwHash, newUser.PwSalt, newUser.Created,
-	// 	newUser.Updated, newUser.LastActive, newUser.UserName,
-	// 	newUser.FullName, newUser.Email, newUser.Intention,
-	// 	newUser.Score, newUser.Disable).Scan(&newUser.Id)
-
 	fmt.Println("db",tdb)
 	if tdb == nil  { return -1 }
 
 	fmt.Println(newUser.PwHash, newUser.PwSalt, newUser.Created,newUser.Updated, newUser.LastActive, newUser.UserName,newUser.FullName, newUser.Email, newUser.Intention,newUser.Score, newUser.Disable)
 
-	// var stmt string = "INSERT INTO user(pwhash, pwsalt,created,updated,lastactive,username,fullname,email,intention,score,disable).VALUES( $1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12)"
-	// query,_ := tdb.Prepare(stmt)
-	// defer query.Close()
-
-	// _,err := tdb.Exec(newUser.PwHash, newUser.PwSalt, newUser.Created,newUser.Updated, newUser.LastActive, newUser.UserName,newUser.FullName, newUser.Email, newUser.Intention,newUser.Score, newUser.Disable)
-
-	theId := rand.Int63()
-
-	_,err := tdb.Exec("INSERT INTO user (id, pwhash, pwsalt,created,updated,lastactive,username,fullname,email,intention,score,disable).VALUES( $1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12)",theId,newUser.PwHash, newUser.PwSalt, newUser.Created,newUser.Updated, newUser.LastActive, newUser.UserName,newUser.FullName, newUser.Email, newUser.Intention,newUser.Score, newUser.Disable)
+	err := tdb.QueryRow("insert into public.user (id, pwhash, pwsalt,created,updated,lastactive,username,fullname,email,intention,score,disable) values ( $1,$2,$3,to_timestamp($4),to_timestamp($5),to_timestamp($6),$7,$8,$9,$10,$11,$12) RETURNING id",theId,newUser.PwHash, newUser.PwSalt, newUser.Created,newUser.Updated, newUser.LastActive, newUser.UserName,newUser.FullName, newUser.Email, newUser.Intention,newUser.Score, newUser.Disable ).Scan(&theId)
 
 	if err != nil {
 	    fmt.Println(err)

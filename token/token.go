@@ -3,7 +3,6 @@ package token
 import (
 	"time"
 	"sync"
-	// "github.com/coopernurse/gorp"
 )
 
 type TokenEntry struct {

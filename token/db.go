@@ -59,7 +59,15 @@ func DisconnectFromDB() {
 func FetchUserFromDB(id int64) (*User,error) {
 	// fmt.Println("db",tdb)
 	if tdb == nil  { return nil,nil }
-	var user *User
-	tdb.QueryRow("SELECT DISTINCT * FROM user WHERE id = $1",id).Scan(&user)
-	return user,nil
+	var u *User
+	u = CreateEmptyUser()
+
+	rows,_ := tdb.Query("SELECT DISTINCT * FROM public.user WHERE id=($1)",id)
+	defer rows.Close()
+	for rows.Next() {
+		rows.Scan(&u.Id, &u.PwHash, &u.PwSalt, &u.Created, &u.Updated, &u.LastActive, &u.UserName, &u.FullName, &u.Email, &u.Email, &u.Intention, &u.Score, &u.Disable)
+		fmt.Println("User fetched ", u.Id)
+	}
+
+	return u,nil
 }

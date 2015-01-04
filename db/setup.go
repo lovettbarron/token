@@ -46,7 +46,9 @@ type User struct {
 
 func main() {
 	/*
-CREATE USER token WITH PASSWORD 'token_test';
+CREATE USER token WITH PASSWORD 'tokentest';
+ALTER USER token WITH PASSWORD 'tokentest'; // Just in case
+ALTER USER token VALID UNTIL 'Dec 28 2016'; // So annoying
 CREATE DATABASE token OWNER token;
 
 CREATE TABLE "user" ( id bigserial primary key,
@@ -77,6 +79,11 @@ CREATE TABLE "tokenentry" (
 	timestamp timestamp NOT NULL,
 	value real NOT NULL
 	);
+
+GRANT ALL PRIVILEGES ON TABLE public.user TO token;
+GRANT ALL PRIVILEGES ON TABLE public.token TO token;
+GRANT ALL PRIVILEGES ON TABLE public.tokenentry TO token;
+
 
 }
 
