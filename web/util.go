@@ -7,33 +7,44 @@ import(
 )
 
 const (
-	
-	dbType = "postgres"
-	dbName = "token_test"
-	dbUser = "andrewlb"
-	dbPass = "password"
-	dbUrl = "localhost"
-
 	salt = "Yp2iD6PcTwB6upati0bPw314GrFWhUy90BIvbJTj5ETbbE8CoViDDGsJS6YHMOBq4VlwW3V00GWUMbbV"
-	)
+)
 
 
 
 // Fake user until DB setup
 var test = false;
-var u = token.NewUser(0,0,0,"test0","test0","test0@test","Testing0")
+var u *token.User
 
 func GetUser() *token.User {
 	if !test {		
+		u = token.NewUser(0,0,0,"test0","test0","test0@test","Testing0")
 		u.NewToken("Token1",4,"a day")
 		u.NewToken("Token1",10,"a week")
 		u.NewToken("Token1",1,"a month")
 		test=true
 	}
 
+	u,err = tdb
+
 	fmt.Println("GetUser() called:",u)
 	return u
 }
+
+ func GenerateSalt(secret []byte) []byte {
+	buf := make([]byte, saltSize, saltSize+sha1.Size)
+	_, err := io.ReadFull(rand.Reader, buf)
+
+	if err != nil {
+		fmt.Printf("random read failed: %v", err)
+		os.Exit(1)
+	}
+
+	hash := sha1.New()
+	hash.Write(buf)
+	hash.Write(secret)
+	return hash.Sum(buf)
+ }
 
 func toJson(data interface{}) (string, error) {
 	// fmt.Println("toJson got",data)

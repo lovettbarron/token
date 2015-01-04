@@ -4,6 +4,7 @@ import(
 	"sync"
 	"time"
 	"fmt"
+	"rand"
 )
 
 type User struct {
@@ -23,7 +24,9 @@ type User struct {
 	Mutex *sync.Mutex 	`json:"-" db:"-"`
 }
 
-func NewUser(userid, pwHash, pwSalt int64, username, fullname, email, intention string) *User {
+func NewUser(userid, pwHash, pwSalt int64, username, fullname, email, intention string) int {
+
+	fmt.Println("Making new user")
 
 	newUser := &User{
 		userid,
@@ -48,21 +51,25 @@ func NewUser(userid, pwHash, pwSalt int64, username, fullname, email, intention 
 	// 	newUser.FullName, newUser.Email, newUser.Intention,
 	// 	newUser.Score, newUser.Disable).Scan(&newUser.Id)
 
-	if(tdb == nil) { return newUser }
+	fmt.Println("db",tdb)
+	if tdb == nil  { return -1 }
 
-fmt.Println(newUser.PwHash, newUser.PwSalt, newUser.Created,newUser.Updated, newUser.LastActive, newUser.UserName,newUser.FullName, newUser.Email, newUser.Intention,newUser.Score, newUser.Disable)
+	fmt.Println(newUser.PwHash, newUser.PwSalt, newUser.Created,newUser.Updated, newUser.LastActive, newUser.UserName,newUser.FullName, newUser.Email, newUser.Intention,newUser.Score, newUser.Disable)
 
-	var stmt string = "INSERT INTO user(pwhash, pwsalt,created,updated,lastactive,username,fullname,email,intention,score,disable).VALUES( ($1),($2),($3),($4),($5),($6),($7),($8),($9))"
-	query,_ := tdb.Prepare(stmt)
-	defer query.Close()
+	// var stmt string = "INSERT INTO user(pwhash, pwsalt,created,updated,lastactive,username,fullname,email,intention,score,disable).VALUES( $1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12)"
+	// query,_ := tdb.Prepare(stmt)
+	// defer query.Close()
 
-	_,err := query.Exec(newUser.PwHash, newUser.PwSalt, newUser.Created,newUser.Updated, newUser.LastActive, newUser.UserName,newUser.FullName, newUser.Email, newUser.Intention,newUser.Score, newUser.Disable)
+	// _,err := tdb.Exec(newUser.PwHash, newUser.PwSalt, newUser.Created,newUser.Updated, newUser.LastActive, newUser.UserName,newUser.FullName, newUser.Email, newUser.Intention,newUser.Score, newUser.Disable)
+
+	_,err := tdb.Exec("INSERT INTO user(Id, pwhash, pwsalt,created,updated,lastactive,username,fullname,email,intention,score,disable).VALUES( $1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12)",rand.Int63(),newUser.PwHash, newUser.PwSalt, newUser.Created,newUser.Updated, newUser.LastActive, newUser.UserName,newUser.FullName, newUser.Email, newUser.Intention,newUser.Score, newUser.Disable)
 
 	if err != nil {
 	    fmt.Println(err)
+	    return -1
 	}
 
-	return newUser
+	return 1
 }
 
 func (u *User) Authenticate() int {

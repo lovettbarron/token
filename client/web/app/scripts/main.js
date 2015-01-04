@@ -11,8 +11,13 @@ window.Web = {
     },
     init: function () {
         'use strict';
-        console.log('Hello from Backbone!');
-    }
+        
+    },
+
+    
+
+
+
 };
 
 $(document).ready(function () {

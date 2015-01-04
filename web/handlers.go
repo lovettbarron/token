@@ -14,6 +14,11 @@ import(
 
 
 ///// User /////
+
+func CreateUserHandler(res http.ResponseWriter, req *http.Request) {
+
+}
+
 //Read
 func GetUserHandler(res http.ResponseWriter, req *http.Request) {
 	user := GetUser()

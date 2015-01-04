@@ -43,6 +43,7 @@ func ConnectToDB() {
 	}
 
 	fmt.Println("Successfully connect to",dbName)
+	fmt.Println("Successfully connect to",tdb)
 	// tdb = db
 }
 
@@ -54,3 +55,9 @@ func DisconnectFromDB() {
 	}
 	fmt.Println("Successfully closed", dbName)
 }
+
+func FetchUserFromDB(user,pass string) *User {
+	// fmt.Println("db",tdb)
+	if tdb == nil  { return nil }
+
+	_,err := tdb.Exec("SELECT * FROM user WHERE 

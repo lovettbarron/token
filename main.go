@@ -24,6 +24,7 @@ func main() {
 	r.HandleFunc("/logout", web.LogoutHandler)
 
 	// User Handlers
+	u.HandleFunc("/new",web.CreateUserHandler).Methods("GET")
 	u.HandleFunc("/",web.GetUserHandler).Methods("GET")
 	u.HandleFunc("/{data}",web.UpdateUserHandler).Methods("POST")
 	u.HandleFunc("/",web.DeleteUserHandler).Methods("DELETE")
@@ -32,9 +33,9 @@ func main() {
 	t.HandleFunc("/", web.GetTokenListHandler).Methods("GET")
 	t.HandleFunc("/", web.CreateTokenHandler).Methods("POST").
 		Queries(
-			"title","{title:[A-Za-z]|[0-9]|_+}",
-			"quant","{quant:[0-9]+}",
-			"interval","{interval:[A-Za-z]|[0-9]|_+}",
+			"t","{title:[A-Za-z]|[0-9]|_+}",
+			"q","{quant:[0-9]+}",
+			"i","{interval:[A-Za-z]|[0-9]|_+}",
 			)
 	// Individual
 	t.HandleFunc("/{id}", web.GetTokenHandler).Methods("GET")
