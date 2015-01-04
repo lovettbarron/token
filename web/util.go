@@ -21,20 +21,22 @@ const (
 // Fake user until DB setup
 var test = false;
 var u *token.User
+var uid int64
 
 func GetUser() *token.User {
 	if !test {		
-		id := token.NewUser(0,0,0,"test0","test0","test0@test","Testing0")
 
-		u,_ = token.FetchUserFromDB(id)
+		uid = token.CheckUserExists("test0",0,0)
+		if uid == -1 {
+			uid = token.NewUser(0,0,0,"test0","test0","test0@test","Testing0")
+		} 
+		u,_ = token.FetchUserFromDB(uid)
 
-		u.NewToken("Token1",4,"a day")
-		u.NewToken("Token1",10,"a week")
-		u.NewToken("Token1",1,"a month")
+		// u.NewToken("Token1",4,"a day")
+		// u.NewToken("Token1",10,"a week")
+		// u.NewToken("Token1",1,"a month")
 		test=true
 	}
-
-	// u,err = tdb
 
 	fmt.Println("GetUser() called:",u)
 	return u

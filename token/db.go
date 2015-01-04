@@ -71,3 +71,17 @@ func FetchUserFromDB(id int64) (*User,error) {
 
 	return u,nil
 }
+
+func CheckUserExists(username string, hash, salt int64) int64 {
+	if tdb == nil  { return -1 }
+	var id int64
+	id=-1
+
+	rows,_ := tdb.Query("SELECT DISTINCT id FROM public.user WHERE username=($1) AND pwhash=($2) AND pwsalt=($3)",username, hash, salt)
+	defer rows.Close()
+	for rows.Next() {
+		rows.Scan(&id)
+		fmt.Println("User fetched ", id)
+	}
+	return id
+}

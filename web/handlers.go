@@ -10,6 +10,7 @@ import(
 	_ "github.com/gorilla/sessions"
 	_ "github.com/gorilla/securecookie"
 	_ "readywater/token/token"
+	"strconv"
 )
 
 
@@ -17,7 +18,6 @@ import(
 
 func CreateUserHandler(res http.ResponseWriter, req *http.Request) {
 	fmt.Println(req.Body)
-
 }
 
 //Read
@@ -45,9 +45,12 @@ func DeleteUserHandler(res http.ResponseWriter, req *http.Request) {
 ///// Token //////
 //New Token
 func CreateTokenHandler(res http.ResponseWriter, req *http.Request) {
-	// user := GetUser()
-	// user.NewToken(req.)
-	fmt.Fprintf(res, "CreatedToken")
+	user := GetUser()
+	req.ParseForm()
+	// fmt.Println(req.PostFormValue("i"));
+	q,_:=strconv.Atoi(req.PostFormValue("q"))
+	tokenId := user.NewToken(req.PostFormValue("t"),int64(q),req.PostFormValue("i"))
+	fmt.Fprintf(res, "CreatedToken", tokenId)
 }
 
 //Get All

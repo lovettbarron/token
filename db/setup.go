@@ -48,7 +48,7 @@ func main() {
 	/*
 CREATE USER token WITH PASSWORD 'tokentest';
 ALTER USER token WITH PASSWORD 'tokentest'; // Just in case
-ALTER USER token VALID UNTIL 'Dec 28 2016'; // So annoying
+ALTER USER token VALID UNTIL 'Dec 28 2019'; // So annoying
 CREATE DATABASE token OWNER token;
 
 CREATE TABLE "user" ( id bigserial primary key,

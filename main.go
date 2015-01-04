@@ -31,12 +31,12 @@ func main() {
 
 	// Token Handlers
 	t.HandleFunc("/", web.GetTokenListHandler).Methods("GET")
-	t.HandleFunc("/", web.CreateTokenHandler).Methods("POST").
-		Queries(
-			"t","{title:[A-Za-z]|[0-9]|_+}",
-			"q","{quant:[0-9]+}",
-			"i","{interval:[A-Za-z]|[0-9]|_+}",
-			)
+	t.HandleFunc("/", web.CreateTokenHandler).Methods("POST")
+		// Queries(
+		// 	"t","{title:[A-Za-z]|[0-9]|_+}",
+		// 	"q","{quant:[0-9]+}",
+		// 	"i","{interval:[A-Za-z]|[0-9]|_+}",
+		// 	)
 	// Individual
 	t.HandleFunc("/{id}", web.GetTokenHandler).Methods("GET")
 	t.HandleFunc("/{id}", web.UseTokenHandler).Methods("POST")

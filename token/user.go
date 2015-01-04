@@ -69,10 +69,7 @@ func NewUser(userid, pwHash, pwSalt int64, username, fullname, email, intention 
 		new(sync.Mutex),
 	}
 
-	fmt.Println("db",tdb)
 	if tdb == nil  { return -1 }
-
-	fmt.Println(newUser.PwHash, newUser.PwSalt, newUser.Created,newUser.Updated, newUser.LastActive, newUser.UserName,newUser.FullName, newUser.Email, newUser.Intention,newUser.Score, newUser.Disable)
 
 	err := tdb.QueryRow("insert into public.user (id, pwhash, pwsalt,created,updated,lastactive,username,fullname,email,intention,score,disable) values ( $1,$2,$3,to_timestamp($4),to_timestamp($5),to_timestamp($6),$7,$8,$9,$10,$11,$12) RETURNING id",theId,newUser.PwHash, newUser.PwSalt, newUser.Created,newUser.Updated, newUser.LastActive, newUser.UserName,newUser.FullName, newUser.Email, newUser.Intention,newUser.Score, newUser.Disable ).Scan(&theId)
 
@@ -97,20 +94,30 @@ func (u *User) DeleteUser() int {
 }
 
 ///////// Tokens //////////
+
 // Generate Token for this user
-func (u *User) NewToken(title string, quant int64, interval string) *Token {
-	token := &Token{
-		int64(len(u.Tokens)),
-		u.Id,
-		title,
-		quant,
-		interval,
-		time.Now().Unix(),
-		make([]*TokenEntry, 0),
-		new(sync.Mutex),
+func (u *User) NewToken(title string, quant int64, interval string) int64 {
+	// token := &Token{
+	// 	int64(len(u.Tokens)),
+	// 	u.Id,
+	// 	title,
+	// 	quant,
+	// 	interval,
+	// 	time.Now().Unix(),
+	// 	make([]*TokenEntry, 0),
+	// 	new(sync.Mutex),
+	// }
+
+	tokenId := rand.Int63()
+
+	err := tdb.QueryRow("insert into public.token (id, userid, title, quantity, interval, start) values ( $1,$2,$3,$4,$5,to_timestamp($6)) RETURNING id",tokenId,u.Id, title, quant, interval, time.Now().Unix()).Scan(&tokenId)
+
+	if err != nil {
+	    fmt.Println(err)
+	    return -1
 	}
-	u.Tokens = append(u.Tokens,token)
-	return token
+
+	return tokenId
 }
 
 // Get List of All Tokens
