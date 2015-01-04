@@ -4,7 +4,7 @@ import(
 	"sync"
 	"time"
 	"fmt"
-	"rand"
+	"math/rand"
 )
 
 type User struct {
@@ -24,7 +24,7 @@ type User struct {
 	Mutex *sync.Mutex 	`json:"-" db:"-"`
 }
 
-func NewUser(userid, pwHash, pwSalt int64, username, fullname, email, intention string) int {
+func NewUser(userid, pwHash, pwSalt int64, username, fullname, email, intention string) int64 {
 
 	fmt.Println("Making new user")
 
@@ -62,14 +62,16 @@ func NewUser(userid, pwHash, pwSalt int64, username, fullname, email, intention 
 
 	// _,err := tdb.Exec(newUser.PwHash, newUser.PwSalt, newUser.Created,newUser.Updated, newUser.LastActive, newUser.UserName,newUser.FullName, newUser.Email, newUser.Intention,newUser.Score, newUser.Disable)
 
-	_,err := tdb.Exec("INSERT INTO user(Id, pwhash, pwsalt,created,updated,lastactive,username,fullname,email,intention,score,disable).VALUES( $1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12)",rand.Int63(),newUser.PwHash, newUser.PwSalt, newUser.Created,newUser.Updated, newUser.LastActive, newUser.UserName,newUser.FullName, newUser.Email, newUser.Intention,newUser.Score, newUser.Disable)
+	theId := rand.Int63()
+
+	_,err := tdb.Exec("INSERT INTO user (id, pwhash, pwsalt,created,updated,lastactive,username,fullname,email,intention,score,disable).VALUES( $1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12)",theId,newUser.PwHash, newUser.PwSalt, newUser.Created,newUser.Updated, newUser.LastActive, newUser.UserName,newUser.FullName, newUser.Email, newUser.Intention,newUser.Score, newUser.Disable)
 
 	if err != nil {
 	    fmt.Println(err)
 	    return -1
 	}
 
-	return 1
+	return theId
 }
 
 func (u *User) Authenticate() int {

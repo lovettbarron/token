@@ -24,7 +24,7 @@ func main() {
 	r.HandleFunc("/logout", web.LogoutHandler)
 
 	// User Handlers
-	u.HandleFunc("/new",web.CreateUserHandler).Methods("GET")
+	u.HandleFunc("/new",web.CreateUserHandler).Methods("POST")
 	u.HandleFunc("/",web.GetUserHandler).Methods("GET")
 	u.HandleFunc("/{data}",web.UpdateUserHandler).Methods("POST")
 	u.HandleFunc("/",web.DeleteUserHandler).Methods("DELETE")

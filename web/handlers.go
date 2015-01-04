@@ -16,6 +16,7 @@ import(
 ///// User /////
 
 func CreateUserHandler(res http.ResponseWriter, req *http.Request) {
+	fmt.Println(req.Body)
 
 }
 

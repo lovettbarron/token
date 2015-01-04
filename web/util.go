@@ -4,10 +4,16 @@ import(
 	"fmt"
 	"encoding/json"
 	"readywater/token/token"
+	_ "bytes"
+	"io"
+	"os"
+	"crypto/rand"
+	"crypto/sha1"
 )
 
 const (
 	salt = "Yp2iD6PcTwB6upati0bPw314GrFWhUy90BIvbJTj5ETbbE8CoViDDGsJS6YHMOBq4VlwW3V00GWUMbbV"
+	saltSize = 16
 )
 
 
@@ -18,14 +24,17 @@ var u *token.User
 
 func GetUser() *token.User {
 	if !test {		
-		u = token.NewUser(0,0,0,"test0","test0","test0@test","Testing0")
+		id := token.NewUser(0,0,0,"test0","test0","test0@test","Testing0")
+
+		u,_ = token.FetchUserFromDB(id)
+
 		u.NewToken("Token1",4,"a day")
 		u.NewToken("Token1",10,"a week")
 		u.NewToken("Token1",1,"a month")
 		test=true
 	}
 
-	u,err = tdb
+	// u,err = tdb
 
 	fmt.Println("GetUser() called:",u)
 	return u
@@ -57,21 +66,7 @@ func toJson(data interface{}) (string, error) {
 	return string(dataJson),nil
 }
 
-
 /*
-func hashPassword(username, password string) string {
-
-	ps := []string{password, username, salt}
-
-	// hashed_password
-	hash := sha256.New()
-	hash.Write([]byte(strings.Join(ps, "-")))
-	md := hash.Sum(nil)
-	hashed_password := hex.EncodeToString(md)
-
-	return hashed_password
-}
-
 // from: https://stackoverflow.com/questions/18817336/golang-encrypting-a-string-with-aes-and-base64
 
 // See recommended IV creation from ciphertext below

@@ -56,8 +56,10 @@ func DisconnectFromDB() {
 	fmt.Println("Successfully closed", dbName)
 }
 
-func FetchUserFromDB(user,pass string) *User {
+func FetchUserFromDB(id int64) (*User,error) {
 	// fmt.Println("db",tdb)
-	if tdb == nil  { return nil }
-
-	_,err := tdb.Exec("SELECT * FROM user WHERE 
+	if tdb == nil  { return nil,nil }
+	var user *User
+	tdb.QueryRow("SELECT DISTINCT * FROM user WHERE id = $1",id).Scan(&user)
+	return user,nil
+}
